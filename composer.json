@@ -1,0 +1,37 @@
+{
+    "name": "linkorb/app-event-bundle",
+    "description": "Application Event logging for Symfony Applications",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LinkORB",
+            "email": "engineering@linkorb.com",
+            "role": "Development"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "linkorb/app-event": "^1.0",
+        "monolog/monolog": "^1.24",
+        "psr/log": "^1.1",
+        "symfony/config": "^4",
+        "symfony/dependency-injection": "^4",
+        "symfony/framework-bundle": "^4.3",
+        "symfony/http-kernel": "^4",
+        "symfony/monolog-bridge": "^4.3",
+        "symfony/security-core": "^4.3",
+        "symfony/yaml": "^4"
+    },
+    "autoload": {
+        "psr-4": {
+            "LinkORB\\AppEventBundle\\": "src/"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
