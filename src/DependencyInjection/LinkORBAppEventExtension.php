@@ -69,6 +69,20 @@ class LinkORBAppEventExtension extends Extension implements CompilerPassInterfac
 
     public function process(ContainerBuilder $container)
     {
+        // Inject AppEventFormatter into a handler defined in symfony's monolog bundle config (e.g. config/packages/monolog.yaml)
+        try {
+            $appEventsHandlerDefn = $container->findDefinition("monolog.handler.{$this->handlerName}");
+        } catch (ServiceNotFoundException $e) {
+            // It would be good to alert to the fact that the expected handler
+            // service definition does not exist, but this would require that
+            // this bundle, at the time of its installation, modify the monolog
+            // config - something which is rather difficult at present.  So we
+            // must instead cease any further logger configuration and hope that
+            // the person installing this bundle has read its documentation
+            return;
+        }
+        $appEventsHandlerDefn->addMethodCall('setFormatter', [new Reference('linkorb_app_event.app_event_formatter')]);
+
         // Add JsonFormatter to the container
         try {
             $container->findDefinition(JsonFormatter::class);
@@ -79,19 +93,6 @@ class LinkORBAppEventExtension extends Extension implements CompilerPassInterfac
         // Inject JsonFormatter into this bundle's AppEventFormatter
         $formatterDefn = $container->getDefinition('linkorb_app_event.app_event_formatter');
         $formatterDefn->replaceArgument('$formatter', new Reference(JsonFormatter::class));
-
-        // Inject AppEventFormatter into a handler defined in symfony's monolog bundle config (e.g. config/packages/monolog.yaml)
-        try {
-            $appEventsHandlerDefn = $container->findDefinition("monolog.handler.{$this->handlerName}");
-        } catch (ServiceNotFoundException $e) {
-            $env = $container->getParameter('kernel.environment');
-            throw new \LogicException(
-                "The Event Log cannot be configured because a handler named \"{$this->handlerName}\" has not been configured.  Did you forget to define a Monlog handler for the \"{$env}\" environment?",
-                null,
-                $e
-            );
-        }
-        $appEventsHandlerDefn->addMethodCall('setFormatter', [new Reference('linkorb_app_event.app_event_formatter')]);
 
         // inject the App Event Logger into the services that want it and inject
         // the minimum log level as the default logging level
