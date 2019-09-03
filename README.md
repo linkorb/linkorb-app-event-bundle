@@ -107,7 +107,8 @@ class MyService extends AbstractEventLoggingService
         // level, which is whatever you set in the Monolog handler config
         $this->log('my.app.event', ['some-info' => ...);
 
-        // you can also call the logger methods directly
+        // you can also call the logger methods directly, but only do this
+        // when the bundle is configured in all environments
         $this->appEventLogger->error('my.app.event', ['some-info' => ...]);
     }
 }
@@ -139,9 +140,14 @@ to write to the file at `path`.  The minimum logging level for our logger is
 set to INFO.  This is the minimum you need to do to configure the logger, but
 there are a few extra things you can configure.
 
-In a file named `config/packages/linkorb_app_event.yaml` you can turn off the
-TokenProcessor which automatically adds information to App events about the
-authenticated user:
+The following configurations can be set independently in each environment, for
+example you could place the directives in a file named
+`config/packages/prod/linkorb_app_event.yaml`.  If the bundle has been enabled
+in every environment then you can configure it simultaneously for all
+environments in `config/packages/linkorb_app_event.yaml`.
+
+You can turn off the TokenProcessor which automatically adds information to App
+events about the authenticated user:
 
 ```yaml
 linkorb_app_event:
