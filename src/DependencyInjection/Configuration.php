@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('tag_processor')
-                    ->canBeDisabled()
+                    ->canBeEnabled()
                     ->children()
                         ->arrayNode('tags')
                             ->useAttributeAsKey('name')
