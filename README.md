@@ -91,13 +91,13 @@ class MyController extends AppEventLoggingController
 }
 ```
 
-Your services can extend AbstractEventLoggingService to get the same benefit:
+Your services can extend AppEventLoggingService to get the same benefit:
 
 ```php
 
-use LinkORB\AppEventBundle\Logger\AbstractEventLoggingService;
+use LinkORB\AppEventBundle\Logger\AppEventLoggingService;
 
-class MyService extends AbstractEventLoggingService
+class MyService extends AppEventLoggingService
 {
     public function myMethod()
     {

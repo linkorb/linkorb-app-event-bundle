@@ -6,7 +6,7 @@ use LinkORB\AppEvent\AppEventLoggerAwareInterface;
 use LinkORB\AppEvent\AppEventLoggerInterface;
 use LinkORB\AppEvent\AppEventLoggerTrait;
 
-abstract class AbstractEventLoggingService implements AppEventLoggerAwareInterface, AppEventLoggerInterface
+abstract class AppEventLoggingService implements AppEventLoggerAwareInterface, AppEventLoggerInterface
 {
     use AppEventLoggerTrait;
 }
