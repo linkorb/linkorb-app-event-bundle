@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
         $this->projectDir = $projectDir;
     }
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): Treebuilder
     {
         $treeBuilder = new TreeBuilder('linkorb_app_event');
         $rootNode = $treeBuilder->getRootNode();
